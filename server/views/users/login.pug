@@ -1,0 +1,26 @@
+extends ../layout/index
+
+block content      
+  .container#registration
+    .row
+      .col-sm-8
+        h1 Login
+        if error
+         .alert.alert-danger
+           | Invalid username or password!
+  
+        .panel.panel-default
+          .panel-body
+            form(method="POST", action="/users/login")
+              .form-group
+                label(for='inputEmail') Email address
+                input#inputEmail.form-control(type='email', name='email', placeholder='Enter email', required)
+              .form-group
+                label(for='inputPassword') Password
+                input#inputPassword.form-control(type='password', name='password', placeholder='Password', required, minlength=6)
+
+              button.btn.btn-primary(type='submit') Login
+
+      if artwork
+        aside.col-sm-4
+          include ../includes/artwork

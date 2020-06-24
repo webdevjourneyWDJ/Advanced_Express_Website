@@ -1,0 +1,33 @@
+extends ../layout/index
+
+block content      
+  .container#registration
+    .row
+      .col-sm-8
+        h1 My Account
+
+        .panel.panel-default
+          .panel-body
+            .row
+              .col-md-4
+                if(!user.avatar)
+                  img.img-responsive(src='/images/avatar_placeholder.png')
+                else
+                  img.img-responsive(src=`/users/avatar/${user.avatar}`)
+              .col-md-8
+                .row
+                  .col-md-4
+                    | Username: 
+                  .col-md-8=user.username
+                .row
+                  .col-md-4
+                    | E-Mail: 
+                  .col-md-8=user.email
+                .row
+                  .col-md-4
+                    | Registered
+                  .col-md-8=user.createdAt
+            
+      if artwork
+        aside.col-sm-4
+          include ../includes/artwork

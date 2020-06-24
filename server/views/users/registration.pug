@@ -1,0 +1,37 @@
+extends ../layout/index
+
+block content      
+  .container#registration
+    .row
+      .col-sm-8
+        h1 Register Now!
+        if success
+         .alert.alert-success
+           | Thank you for your registration!
+        else   
+          .panel.panel-default
+            .panel-body
+              form(method="POST", action="/users/registration")
+                .form-group
+                  label(for='inputName') Name
+                  input#inputName.form-control(type='text', name='username', aria-describedby='nameHelp', placeholder='Enter your name', required, minlength=3)
+                  small#nameHelp.form-text.text-muted This is how others will see you on the page. Please enter at least 3 characters.
+  
+                .form-group
+                  label(for='inputEmail') Email address
+                  input#inputEmail.form-control(type='email', name='email', aria-describedby='emailHelp', placeholder='Enter email', required)
+                  small#emailHelp.form-text.text-muted We'll never share your email with anyone else.
+                .form-group
+                  label(for='inputPassword') Password
+                  input#inputPassword.form-control(type='password', name='password', placeholder='Password', required, minlength=6)
+                  small#emailHelp.form-text.text-muted At least 8 characters.
+                .form-group
+                  label(for='avatar') Your avatar picture
+                  input#inputFile.form-control(type='file', name='avatar', accept=".png, .jpg, .jpeg", aria-describedby='fileHelp')
+                  small#fileHelp.form-text.text-muted PNG or JPG (Max 2MB)
+  
+                button.btn.btn-primary(type='submit') Submit
+
+      if artwork
+        aside.col-sm-4
+          include ../includes/artwork

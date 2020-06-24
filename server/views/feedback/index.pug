@@ -1,0 +1,39 @@
+extends ../layout/index
+block content
+  #feedback.container
+    .row
+      .col-sm-4
+        h1.feedback-form-title Send us feedback
+        if error
+          .alert.alert-danger
+            | There was an error handling your request. Did you fill out all fields?
+        else if success
+          .alert.alert-success
+            | Thank you for your feedback  
+        form.feedback-form(action='/feedback', method='POST')
+          .form-group
+            label(for='feedback-form-name') Name
+            input#feedback-form-name.form-control(type='text', name='name' value=feedbackName, placeholder='Enter your name')
+          .form-group
+            label(for='feedback-form-title') Title
+            input#feedback-form-title.form-control(type='text', name='title', value=feedbackTitle, placeholder='Title of your feedback')
+          .form-group
+            label(for='feedback-form-message') Message
+            textarea#feedback-form-message.form-control(type='text', name='message', placeholder='Enter your message, then hit the submit', rows='6')=feedbackMessage
+          button.btn.btn-default.pull-right(type='submit') Submit
+      // primary
+      aside.col-sm-8
+        .maincontent.feedback
+          h2.article-title Recent Feedback
+          .feedback-messages
+            if !feedbacklist || !feedbacklist.length
+              | No feedback so far! Add yours!
+            each item in feedbacklist
+              .feedback-item.item-list.media-list
+                .feedback-item.media
+                  .feedback-info.media-body
+                    .feedback-head
+                      .feedback-title=item.title
+                        | &nbsp;
+                        small.feedback-name.label.label-info=item.name
+                    .feedback-message=item.message
