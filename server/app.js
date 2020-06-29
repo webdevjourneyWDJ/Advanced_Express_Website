@@ -1,5 +1,9 @@
 const express = require('express');
 const path = require('path');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+const mongoose = require('mongoose');
 const createError = require('http-errors');
 const bodyParser = require('body-parser');
 const routes = require('./routes');
@@ -20,9 +24,18 @@ module.exports = (config) => {
   app.get('/favicon.ico', (req, res) => res.sendStatus(204));
 
   app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(cookieParser());
+
+  app.use(session({
+    secret:"57sd3435546324sfdh",
+    resave: true,
+    saveUninitialized: false,
+    store: new MongoStore({mongooseConnection: mongoose.connection})
+  }))
 
   app.use(async (req, res, next) => {
     try {
+      req.session.visits = req.session.visits? req.session.visits + 1 : 1
       const names = await speakers.getNames();
       res.locals.speakerNames = names;
       return next();
