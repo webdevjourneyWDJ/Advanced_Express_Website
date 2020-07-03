@@ -4,7 +4,7 @@ const path = require('path');
 
 module.exports = {
   development: {
-    sitename: 'Roux Meetups [Development]',
+    sitename: 'Art Meetups [Development]',
     data: {
       speakers: path.join(__dirname, '../data/speakers.json'),
       feedback: path.join(__dirname, '../data/feedback.json'),
@@ -15,7 +15,7 @@ module.exports = {
     },
   },
   production: {
-    sitename: 'Roux Meetups',
+    sitename: 'Art Meetups',
     data: {
       speakers: path.join(__dirname, '../data/speakers.json'),
       feedback: path.join(__dirname, '../data/feedback.json'),
@@ -26,7 +26,7 @@ module.exports = {
     },
   },
   test: {
-    sitename: 'Roux Meetups [Test]',
+    sitename: 'Art Meetups [Test]',
     data: {
       speakers: path.join(__dirname, '../data/speakers.json'),
       feedback: path.join(__dirname, '../data/feedback-test.json'),
