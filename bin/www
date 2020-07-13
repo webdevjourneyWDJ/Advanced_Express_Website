@@ -4,10 +4,15 @@
  * Module dependencies.
  */
 const http = require('http');
+const cluster = require('cluster');
+const os = require('os');
 const config = require('../server/config')[process.env.NODE_ENV || 'development'];
 const app = require('../server/app')(config);
 const db = require('../server/lib/db');
 
+const log = config.log();
+
+const numCPUs = os.cpus().length;
 // Helper functions
 
 /**
@@ -39,21 +44,33 @@ app.set('port', port);
  */
 const server = http.createServer(app);
 
-db.connect(config.database.dsn)
+if(cluster.isMaster) {
+  log.info(`Master ${process.pid} is running`);
+  for(let i=0; i<numCPUs; i+=1){
+    cluster.fork();
+  }
+
+  cluster.on('exit', (worker) => {
+    log.fatal(`Worker ${worker.process.pid} just died`);
+    cluster.fork();
+  });
+}else{
+  db.connect(config.database.dsn)
   .then(() => {
-    console.log('Connected to MongoDB');
+    log.info('Connected to MongoDB');
     server.listen(port);
   })
   .catch((err) => {
-    console.error(err);
+    log.fatal(err);
   });
+}
 
 server.on('listening', () => {
   const addr = server.address();
   const bind = typeof addr === 'string'
     ? `pipe ${addr}`
     : `port ${addr.port}`;
-  console.log(`Listening on ${bind}`);
+  log.info(`Listening on ${bind}`);
 });
 
 // Handle server errors
@@ -69,15 +86,15 @@ server.on('error', (error) => {
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
-      console.error(`${bind} requires elevated privileges`);
+      log.fatal(`${bind} requires elevated privileges`);
       process.exit(1);
       break;
     case 'EADDRINUSE':
-      console.error(`${bind} is already in use`);
+      log.fatal(`${bind} is already in use`);
       process.exit(1);
       break;
     default:
-      console.log(error);
+      log.info(error);
     // throw error;
   }
 });

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node bin/www",
-    "dev": "nodemon bin/www",
+    "dev": "nodemon bin/www | bunyan -o short",
     "test": "npx mocha --exit --recursive test/"
   },
   "author": "",
@@ -13,12 +13,15 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
+    "bunyan": "^1.8.14",
+    "compression": "^1.7.4",
     "connect-mongo": "^3.2.0",
     "cookie-parser": "^1.4.5",
     "dotenv": "^6.1.0",
     "email-validator": "^2.0.4",
     "express": "^4.16.4",
     "express-session": "^1.17.1",
+    "helmet": "^3.23.3",
     "http-errors": "^1.7.1",
     "mongodb": "^3.5.9",
     "mongoose": "^5.9.20",
