@@ -21,7 +21,7 @@ module.exports = {
         // Path of the application on target servers
         "path" : "/home/ubuntu/apps",
         // Commands to be executed on the server after the repo has been cloned
-        "post-deploy" : "npm install && pm2 startOrRestart ecosystem.json --env production",
+        "post-deploy" : "cp ../.env ./ && npm install && pm2 startOrRestart ecosystem.config.js --env production",
     },
   },
 };
