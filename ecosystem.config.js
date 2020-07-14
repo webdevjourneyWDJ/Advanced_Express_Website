@@ -20,13 +20,6 @@ module.exports = {
         "repo" : "https://github.com/webdevjourneyWDJ/Advanced_Express_Website.git",
         // Path of the application on target servers
         "path" : "/home/ubuntu/apps",
-        // Commands / path to a script on the host machine
-        // This will be executed on the host after cloning the repository
-        // eg: placing configurations in the shared dir etc
-        "post-setup": "pwd",
-        // Commands to execute locally (on the same machine you deploy things)
-        // Can be multiple commands separated by the character ";"
-        "pre-deploy-local" : "echo 'from: ****' && pwd",
         // Commands to be executed on the server after the repo has been cloned
         "post-deploy" : "npm install && pm2 startOrRestart ecosystem.json --env production",
     },
