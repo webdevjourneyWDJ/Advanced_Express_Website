@@ -33,25 +33,12 @@ module.exports = (config) => {
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(cookieParser());
 
-  if(app.get('env') === "production"){
-    app.set('trust proxy', 'loopback');
-    app.use(session({
-      secret: 'very secret 12345',
-      name: "sessionID",
-      proxy: true,
-      // cookie: {secure: true},
-      resave: true,
-      saveUninitialized: false,
-      store: new MongoStore({ mongooseConnection: mongoose.connection }),
-    }));
-  }else {
-    app.use(session({
-      secret: 'very secret 12345',
-      resave: true,
-      saveUninitialized: false,
-      store: new MongoStore({ mongooseConnection: mongoose.connection }),
-    }));
-  }
+  app.use(session({
+    secret: 'very secret 12345',
+    resave: true,
+    saveUninitialized: false,
+    store: new MongoStore({ mongooseConnection: mongoose.connection }),
+  }));
 
   app.use(auth.initialize);
   app.use(auth.session);
