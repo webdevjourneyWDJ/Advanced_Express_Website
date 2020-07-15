@@ -11,10 +11,10 @@ module.exports = {
   deploy: {
     "production" : {
         "user" : "ubuntu",
-        "host" : "52.70.39.2",
+        "host" : "3.85.139.126",
         "ref"  : "origin/master",
         "repo" : "https://github.com/webdevjourneyWDJ/Advanced_Express_Website.git",
-        "path" : "/home/ubuntu/apps",
+        "path" : "/home/ubuntu/deploy",
         "pre-setup" : "echo 'This is pre-setup command'",
         "pre-deploy-local" : "echo 'This is a local executed command'",
         "post-deploy" : "cp ../.env ./ && npm install && pm2 startOrRestart ecosystem.config.js --env production"
